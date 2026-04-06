@@ -13,7 +13,7 @@ OU="IT"
 CN="192.168.1.2"   # Change to your domain or IP
 DAYS=365
 KEY_FILE="mykey.key"
-CERT_FILE="mycertificate.crt"
+CERT_FILE="mycert.crt"
 
 # Generate private key and self-signed certificate
 echo "[*] Generating private key and certificate..."
