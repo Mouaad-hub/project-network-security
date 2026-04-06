@@ -1,13 +1,13 @@
 
-# 🔐 Network Security Project
+#  Network Security Project
 
-## 📌 Description
+##  Description
 This project is a **Network Security Lab** built using **GNS3** and a **FortiGate Firewall**.  
 It simulates a secure enterprise network with segmentation between **LAN, DMZ, and Internet**, including advanced security features such as **NAT, VIP, VPN, and DoS protection**.
 
 ---
 
-## 🎯 Objective
+##  Objective
 To simulate a secure enterprise network with controlled access between:
 - Internal LAN (VLANs)
 - DMZ (public services)
@@ -15,7 +15,7 @@ To simulate a secure enterprise network with controlled access between:
 
 ---
 
-## 🏗️ Network Architecture
+##  Network Architecture
 
 ![Topology](images/topology.png)
 
@@ -32,7 +32,7 @@ To simulate a secure enterprise network with controlled access between:
 
 ---
 
-## 🧰 Technologies Used
+##  Technologies Used
 
 - GNS3
 - FortiGate Firewall (v7.0.9)
@@ -43,7 +43,7 @@ To simulate a secure enterprise network with controlled access between:
 
 ---
 
-## 🔐 Security Features
+##  Security Features
 
 ### 🔸 NAT
 - Configured on:
@@ -117,7 +117,7 @@ set threshold 500
 
 ---
 
-## 🌐 Services
+##  Services
 
 ### 🔹 Web Server (CentOS)
 
@@ -141,23 +141,25 @@ set threshold 500
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 network-security-project/
-│
-├── configs/
-├── scripts/
-├── images/
-│   └── topology.png
-│
 ├── README.md
-├── .gitignore
+├── configs/
+│   ├── fortigate-vip.conf        # FortiGate VIP configuration
+│   ├── fortigate-policy.conf     # FortiGate firewall policies
+│   └── httpd-ssl.conf            # Apache SSL virtual host config
+├── scripts/
+│   ├── generate-cert.sh          # SSL certificate generation script
+│   └── setup-httpd-ssl.sh        # Apache HTTPS setup script
+└── diagrams/
+    └── network-diagram.md        # Network topology description
 ```
 
 ---
 
-## 🚀 How to Run
+##  How to Run
 
 1. Open project in **GNS3**
 2. Start all devices:
@@ -175,7 +177,7 @@ network-security-project/
 
 ---
 
-## ⚠️ Security Notes
+##  Security Notes
 
 * Private keys are excluded using `.gitignore`
 * Only HTTP/HTTPS allowed from WAN
@@ -183,7 +185,7 @@ network-security-project/
 
 ---
 
-## 👨‍💻 Author
+##  Author
 
 * Mouaad
 
