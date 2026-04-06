@@ -1,148 +1,201 @@
+
 # 🔐 Network Security Project
 
-A hands-on network security lab implementing SSL/TLS termination, VPN access, DMZ architecture, and firewall policies using **FortiGate**, **CentOS/Apache HTTPD**, and **OpenSSL**.
+## 📌 Description
+This project is a **Network Security Lab** built using **GNS3** and a **FortiGate Firewall**.  
+It simulates a secure enterprise network with segmentation between **LAN, DMZ, and Internet**, including advanced security features such as **NAT, VIP, VPN, and DoS protection**.
 
 ---
 
-## 📋 Project Overview
-
-This project demonstrates a complete secure network infrastructure including:
-
-- Self-signed SSL/TLS certificate generation and deployment
-- Apache HTTPD configured with HTTPS on CentOS
-- FortiGate Virtual IPs (VIP) for HTTP/HTTPS port forwarding
-- Firewall policies for VLANs, DMZ, VPN, and WAN access
-- SSL VPN with split tunneling to internal VLANs and DMZ
+## 🎯 Objective
+To simulate a secure enterprise network with controlled access between:
+- Internal LAN (VLANs)
+- DMZ (public services)
+- External network (Internet)
 
 ---
 
-## 🗺️ Network Architecture
+## 🏗️ Network Architecture
 
+![Topology](images/topology.png)
+
+### 🔹 Zones:
+- **LAN**
+  - VLAN10 → 192.168.10.0/24
+  - VLAN20 → 192.168.20.0/24
+- **DMZ**
+  - 192.168.1.0/24 (Web Server)
+- **WAN**
+  - 10.0.0.0/24
+- **External (Kali)**
+  - 20.0.0.0/24
+
+---
+
+## 🧰 Technologies Used
+
+- GNS3
+- FortiGate Firewall (v7.0.9)
+- Cisco IOU Switch (VLANs)
+- CentOS Web Server (Apache HTTP/HTTPS)
+- Kali Linux (Attacker / Testing)
+- NAT (FortiGate + ISP Router)
+
+---
+
+## 🔐 Security Features
+
+### 🔸 NAT
+- Configured on:
+  - FortiGate (LAN → WAN)
+  - ISP Router (Internet simulation)
+
+---
+
+### 🔸 VIP (Port Forwarding)
+
+Used to expose the web server in the DMZ:
+
+```bash
+config firewall vip
+    edit "web-vip"
+        set extip 10.0.0.1
+        set mappedip "192.168.1.2"
+        set portforward enable
+        set extport 80
+        set mappedport 80
+    next
+````
+
+---
+
+### 🔸 Firewall Policies
+
+* VLAN ↔ VLAN communication
+* LAN → DMZ allowed
+* LAN → Internet with NAT
+* WAN → DMZ only HTTP/HTTPS (via VIP)
+* VPN access to LAN & DMZ
+
+---
+
+### 🔸 DoS Protection
+
+Protection applied on WAN interface:
+
+* SYN Flood protection
+* UDP Flood protection
+* ICMP Flood protection
+* Port scan detection
+
+Example:
+
+```bash
+set action block
+set threshold 500
 ```
-Internet (WAN)
-      |
-   port3 (10.0.0.1)
-      |
- [FortiGate Firewall]
-      |
-   port2 (DMZ) ──────── Web Server (192.168.1.2)
-      |                  Apache HTTPD + SSL
-   vlan10 (LAN)
-   vlan20 (LAN)
-      |
-   SSL VPN (ssl.root)
-```
 
 ---
 
-## 🛠️ Components
+### 🔸 VLAN Segmentation
 
-| Component | Role |
-|---|---|
-| FortiGate | Firewall, VPN, NAT, VIP |
-| CentOS Linux | Web server OS |
-| Apache HTTPD | Web server |
-| OpenSSL | Certificate generation |
-| mod_ssl | Apache SSL module |
+| VLAN   | Network         | Description    |
+| ------ | --------------- | -------------- |
+| VLAN10 | 192.168.10.0/24 | Internal users |
+| VLAN20 | 192.168.20.0/24 | Internal users |
 
 ---
 
-## 📁 Repository Structure
+### 🔸 SSL VPN
+
+* Remote users connect via FortiGate SSL VPN
+* Access to:
+
+  * VLAN10
+  * VLAN20
+  * DMZ
+
+---
+
+## 🌐 Services
+
+### 🔹 Web Server (CentOS)
+
+* IP: `192.168.1.2`
+* Services:
+
+  * HTTP (80)
+  * HTTPS (443)
+
+![HTTP Test](images/http-test.png)
+
+---
+
+## 🧪 Tests & Validation
+
+✔ External access to web server via public IP
+✔ LAN access to DMZ
+✔ VLAN communication working
+✔ DoS attack mitigation tested using Kali (hping3)
+✔ VPN access to internal resources
+
+---
+
+## 📁 Project Structure
 
 ```
 network-security-project/
-├── README.md
+│
 ├── configs/
-│   ├── fortigate-vip.conf        # FortiGate VIP configuration
-│   ├── fortigate-policy.conf     # FortiGate firewall policies
-│   └── httpd-ssl.conf            # Apache SSL virtual host config
 ├── scripts/
-│   ├── generate-cert.sh          # SSL certificate generation script
-│   └── setup-httpd-ssl.sh        # Apache HTTPS setup script
-└── diagrams/
-    └── network-diagram.md        # Network topology description
+├── images/
+│   └── topology.png
+│
+├── README.md
+├── .gitignore
 ```
 
 ---
 
-## 🚀 Quick Start
+## 🚀 How to Run
 
-### 1. Generate SSL Certificate (CentOS)
+1. Open project in **GNS3**
+2. Start all devices:
 
-```bash
-chmod +x scripts/generate-cert.sh
-sudo ./scripts/generate-cert.sh
-```
+   * FortiGate
+   * Routers
+   * Switches
+   * Servers
+3. Configure IP addresses
+4. Test:
 
-### 2. Configure Apache HTTPS
-
-```bash
-chmod +x scripts/setup-httpd-ssl.sh
-sudo ./scripts/setup-httpd-ssl.sh
-```
-
-### 3. Apply FortiGate Config
-
-Copy the contents of `configs/fortigate-vip.conf` and `configs/fortigate-policy.conf` into your FortiGate CLI.
+   * HTTP access from WAN
+   * VPN connection
+   * DoS protection
 
 ---
 
-## 🔒 Security Features
+## ⚠️ Security Notes
 
-- ✅ TLS 1.2+ enforced (TLS 1.0/1.1 disabled)
-- ✅ HTTP → HTTPS redirect
-- ✅ Private key with strict permissions (600)
-- ✅ SSL VPN for remote access
-- ✅ DMZ isolation for web server
-- ✅ VLAN segmentation (vlan10, vlan20)
-- ✅ NAT enabled on outbound policies
+* Private keys are excluded using `.gitignore`
+* Only HTTP/HTTPS allowed from WAN
+* LAN is protected from direct external access
 
 ---
 
-## 📌 Firewall Policy Summary
+## 👨‍💻 Author
 
-| Policy | Source | Destination | Service | Action |
-|---|---|---|---|---|
-| vlans-com | vlan10, vlan20 | vlan10, vlan20 | ALL | ACCEPT |
-| vlans-dmz | vlan10, vlan20 | DMZ (port2) | ALL | ACCEPT |
-| dmz-net | DMZ (port2) | WAN (port3) | ALL | ACCEPT + NAT |
-| vlans-net | vlan10, vlan20 | WAN (port3) | ALL | ACCEPT + NAT |
-| wan-http | WAN (port3) | web-vip, web-vip-https | HTTP, HTTPS | ACCEPT |
-| vpn-net | ssl.root | WAN (port3) | ALL | ACCEPT + NAT |
-| vpn-vlan10 | ssl.root | vlan10 | ALL | ACCEPT |
-| vpn-vlan20 | ssl.root | vlan20 | ALL | ACCEPT |
-| vpn-dmz | ssl.root | DMZ (port2) | ALL | ACCEPT |
+* Mouaad
 
 ---
 
-## 🧪 Testing
+## 📌 Conclusion
 
-```bash
-# Test HTTPS locally on web server
-curl -k https://192.168.1.2
+This project demonstrates how to design and implement a **secure network architecture** using:
 
-# Test HTTPS through FortiGate VIP
-curl -k https://10.0.0.1
+* Segmentation (VLAN + DMZ)
+* Firewall policies
+* NAT & VIP
+* VPN access
+* DoS protection
 
-# Check Apache is listening on 443
-ss -tlnp | grep 443
-
-# Verify certificate details
-openssl x509 -in /etc/pki/tls/certs/mycertificate.crt -text -noout
-```
-
----
-
-## 📎 Requirements
-
-- FortiGate firewall (any supported version)
-- CentOS 7/8/Stream
-- Apache HTTPD + mod_ssl
-- OpenSSL
-
----
-
-## 👤 Author
-
-**Mouaad** — Network Security Lab Project  
-📍 Marrakesh, Morocco
