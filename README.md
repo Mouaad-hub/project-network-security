@@ -19,7 +19,7 @@ To simulate a secure enterprise network with controlled access between:
 
 ![Topology](images/topology.png)
 
-### 🔹 Zones:
+###  Zones:
 - **LAN**
   - VLAN10 → 192.168.10.0/24
   - VLAN20 → 192.168.20.0/24
@@ -45,14 +45,14 @@ To simulate a secure enterprise network with controlled access between:
 
 ##  Security Features
 
-### 🔸 NAT
+###  NAT
 - Configured on:
   - FortiGate (LAN → WAN)
   - ISP Router (Internet simulation)
 
 ---
 
-### 🔸 VIP (Port Forwarding)
+###  VIP (Port Forwarding)
 
 Used to expose the web server in the DMZ:
 
@@ -69,7 +69,7 @@ config firewall vip
 
 ---
 
-### 🔸 Firewall Policies
+###  Firewall Policies
 
 * VLAN ↔ VLAN communication
 * LAN → DMZ allowed
@@ -79,7 +79,7 @@ config firewall vip
 
 ---
 
-### 🔸 DoS Protection
+###  DoS Protection
 
 Protection applied on WAN interface:
 
@@ -97,7 +97,7 @@ set threshold 500
 
 ---
 
-### 🔸 VLAN Segmentation
+###  VLAN Segmentation
 
 | VLAN   | Network         | Description    |
 | ------ | --------------- | -------------- |
@@ -106,7 +106,7 @@ set threshold 500
 
 ---
 
-### 🔸 SSL VPN
+###  SSL VPN
 
 * Remote users connect via FortiGate SSL VPN
 * Access to:
@@ -119,7 +119,7 @@ set threshold 500
 
 ##  Services
 
-### 🔹 Web Server (CentOS)
+###  Web Server (CentOS)
 
 * IP: `192.168.1.2`
 * Services:
@@ -191,7 +191,7 @@ network-security-project/
 
 ---
 
-## 📌 Conclusion
+##  Conclusion
 
 This project demonstrates how to design and implement a **secure network architecture** using:
 
