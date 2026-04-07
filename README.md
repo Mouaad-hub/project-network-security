@@ -127,11 +127,11 @@ set threshold 500
   * HTTP (80)
   * HTTPS (443)
 
-![HTTP Test](images/http-test.png)
+![HTTP Test](images/web-server.png)
 
 ---
 
-## 🧪 Tests & Validation
+##  Tests & Validation
 
 ✔ External access to web server via public IP
 ✔ LAN access to DMZ
