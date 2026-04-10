@@ -20,7 +20,7 @@
                     └──┬──────────┬───────────┘
                        │          │
               port2 (DMZ)      vlan10 / vlan20
-              192.168.1.x      10.10.x.x / 10.20.x.x
+              192.168.1.x      192.168.10.x / 192.168.10.x
                        │          │
           ┌────────────▼──┐   ┌───▼──────────────┐
           │  DMZ Network  │   │   LAN Networks    │
@@ -33,14 +33,14 @@
           │  │  + SSL   │ │   │  │  VLAN 20   │  │
           │  └──────────┘ │   │  │  Clients   │  │
           └───────────────┘   │  └────────────┘  │
-                              └──────────────────┘
-                                       ▲
-                                       │
-                              ┌────────┴────────┐
-                              │   SSL VPN       │
-                              │  (ssl.root)     │
-                              │  Remote Users   │
-                              └─────────────────┘
+                       ▲      └──────────────────┘
+                       │        ▲
+                       │        │
+                    ┌──┴────────┴─────┐
+                    │   SSL VPN       │
+                    │  (ssl.root)     │
+                    │  Remote Users   │
+                    └─────────────────┘
 ```
 
 ---
@@ -51,8 +51,8 @@
 |---|---|---|---|
 | port3 | WAN | 10.0.0.1 | Internet-facing interface |
 | port2 | DMZ | 192.168.1.x | DMZ for web server |
-| vlan10 | LAN | 10.10.x.x | Internal LAN - VLAN 10 |
-| vlan20 | LAN | 10.20.x.x | Internal LAN - VLAN 20 |
+| vlan10 | LAN | 192.168.10.x | Internal LAN - VLAN 10 |
+| vlan20 | LAN | 192.168.20.x | Internal LAN - VLAN 20 |
 | ssl.root | VPN | SSLVPN pool | SSL VPN tunnel interface |
 
 ---
